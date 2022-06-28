@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BEBEE7BE-A179-4B6B-9826-835286F5B430}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>EPAM.FileSharing.BL</RootNamespace>
-    <AssemblyName>EPAM.FileSharing.BL</AssemblyName>
+    <RootNamespace>EPAM.FileSharing.PL.ConsolePL</RootNamespace>
+    <AssemblyName>EPAM.FileSharing.ConsolePL</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
