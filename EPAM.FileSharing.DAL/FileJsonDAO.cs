@@ -13,11 +13,13 @@ namespace EPAM.FileSharing.DAL.DAL
     public class FileJsonDAO : IFileShareDAO
     {
         public const string _JSON_FILES_PATH = @"C:\Users\Nuuskamuikkunen\source\repos\FileSharing\Files";
-        public void AddFile(ShFile fileshare)
+        public bool AddFile(ShFile fileshare)
         {
             string json = JsonConvert.SerializeObject(fileshare);
 
             File.WriteAllText(GetFilePathById(fileshare.ID), json);
+
+            return File.Exists(GetFilePathById(fileshare.ID));
         }
 
         public void RemoveFile(int id)
@@ -47,6 +49,19 @@ namespace EPAM.FileSharing.DAL.DAL
         }
 
         public string GetFilePathById(int id) => _JSON_FILES_PATH + id + ".json";
+
+        public ShFile GetShFile(int id)
+        {
+            ///
+            throw new InvalidOperationException("Cannot find file with ID = " + id);
+        }
+
+        public IEnumerable<ShFile> GetShFiles(bool orderedById)
+        {
+            ///
+            throw new InvalidOperationException("Cannot find file" );
+        }
+
 
     }
 }

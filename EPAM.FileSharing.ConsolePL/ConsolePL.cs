@@ -12,6 +12,11 @@ namespace EPAM.FileSharing.PL.ConsolePL
         static void Main(string[] args)
         {
             var bll = DependencyResolver.Instance.ShareLogic;
+
+            foreach(var item in bll.GetShFiles())
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }

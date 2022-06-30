@@ -12,7 +12,9 @@ namespace EPAM.FileSharing.DAL.SQLDAL
 {
     public class FileSqlDAO : IFileShareDAO
     {
-        private static string _connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
+        //private static string _connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
+
+        private static string _connectionString = @"Data Source=DESKTOP-TAPD89E;Initial Catalog=ShFiles;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         private static SqlConnection _connection = new SqlConnection(_connectionString);
 
@@ -20,8 +22,8 @@ namespace EPAM.FileSharing.DAL.SQLDAL
         {
             using (_connection)
             {
-                var query = "SELECT Id, Name, Extension, CreationDate FROM ShFiles"
-                    + (orderedById ? " ORDER BY Id" : "");
+                var query = "SELECT ID, Name, Extension, CreationDate FROM ShFile"
+                    + (orderedById ? " ORDER BY ID" : "");
 
                 var command = new SqlCommand(query, _connection);
 
@@ -32,7 +34,7 @@ namespace EPAM.FileSharing.DAL.SQLDAL
                 while (reader.Read())
                 {
                     yield return new ShFile(
-                        id: (int)reader["Id"],
+                        id: (int)reader["ID"],
                         name: reader["Name"] as string,
                         ext: reader["Extension"] as string, //!!!!
                         date: (DateTime)reader["CreationDate"]);
@@ -46,7 +48,7 @@ namespace EPAM.FileSharing.DAL.SQLDAL
         {
             using (_connection)
             {
-                var query = "INSERT INTO dbo.ShFiles(Name, CreationDate) " +
+                var query = "INSERT INTO dbo.ShFile(Name, CreationDate) " +
                     "VALUES(@Name, @CreationDate)";
                 var command = new SqlCommand(query, _connection);
 
@@ -67,7 +69,7 @@ namespace EPAM.FileSharing.DAL.SQLDAL
         {
             using (_connection)
             {
-                var stProc = "ShFiles_GetById";
+                var stProc = "ShFile_GetById";
 
                 var command = new SqlCommand(stProc, _connection)
                 {
@@ -83,7 +85,7 @@ namespace EPAM.FileSharing.DAL.SQLDAL
                 if (reader.Read())
                 {
                     return new ShFile(
-                        id: (int)reader["Id"],
+                        id: (int)reader["ID"],
                         name: reader["Name"] as string,
                         ext: reader["Extension"] as string, //!!!!
                         date: (DateTime)reader["CreationDate"]);
@@ -98,7 +100,7 @@ namespace EPAM.FileSharing.DAL.SQLDAL
         {
             using (_connection)
             {
-                var query = "INSERT INTO dbo.ShFiles(Name, CreationDate) " +
+                var query = "INSERT INTO dbo.ShFile(Name, CreationDate) " +
                     "VALUES(@Name, @CreationDate); SELECT CAST(scope_identity() AS INT) AS NewID";
                 var command = new SqlCommand(query, _connection);
 
@@ -112,7 +114,7 @@ namespace EPAM.FileSharing.DAL.SQLDAL
                         id: (int)result,
                         name: name,
                         // ext : ext,   //!!!!
-                        creationDate: creationDate); //!!!!
+                        date: creationDate); //!!!!
                 throw new InvalidOperationException(string.Format("Oops {0}, {1};",
                     name, creationDate));
 
