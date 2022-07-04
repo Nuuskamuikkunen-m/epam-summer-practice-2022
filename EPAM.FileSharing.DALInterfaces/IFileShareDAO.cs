@@ -18,5 +18,17 @@ namespace EPAM.FileSharing.DAL.Interfaces
 
         IEnumerable<ShFile> GetAllUserShFilesById(int ID_User);
         User GetProfileById(int id);
+
+        void EditNameProfileById(int id, string newName);
+
+        void EditEmailProfileById(int id, string newEmail);
+
+        void EditLoginProfileById(int id, string newLogin);
+
+        void EditPasswordProfileById(int id, string newPass);
+
+        void EditDateProfileById(int id, DateTime newDate);
+
+
     }
 }

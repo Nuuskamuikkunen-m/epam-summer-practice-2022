@@ -23,5 +23,12 @@ namespace EPAM.FileSharing.BLLInterfaces
         IEnumerable<ShFile> GetShFiles(bool orderedById = true);
         IEnumerable<object> GetAllUserShFilesById(int id);
         User GetProfileById(int v);
+
+        void EditNameProfileById(int id, string newName);
+        void EditEmailProfileById(int id, string newEmail);
+        void EditLoginProfileById(int id, string newLogin);
+        void EditPasswordProfileById(int id, string newPass);
+        void EditDateProfileById(int id, DateTime newDate);
+        
     }
 }

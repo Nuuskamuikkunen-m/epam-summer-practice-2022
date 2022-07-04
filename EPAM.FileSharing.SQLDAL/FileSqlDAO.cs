@@ -242,6 +242,116 @@ namespace EPAM.FileSharing.DAL.SQLDAL
             }
         }
 
-        
+        public void EditNameProfileById(int id, string newName)
+        {
+            using (_connection = new SqlConnection(_connectionString))
+            {
+                var strProc = "dbo.ShFiles_EditNameProfile";
+
+                var command = new SqlCommand(strProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+
+                command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@NewName", newName);
+
+
+                _connection.Open();
+                var result = command.ExecuteNonQuery();
+
+                //return (result > 0);
+            }
+        }
+
+        public void EditEmailProfileById(int id, string newEmail)
+        {
+            using (_connection = new SqlConnection(_connectionString))
+            {
+                var strProc = "dbo.ShFiles_EditEmailProfile";
+
+                var command = new SqlCommand(strProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+
+                command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@NewEmail", newEmail);
+
+
+                _connection.Open();
+                var result = command.ExecuteNonQuery();
+
+                //return (result > 0);
+            }
+        }
+
+        public void EditLoginProfileById(int id, string newLogin)
+        {
+            using (_connection = new SqlConnection(_connectionString))
+            {
+                var strProc = "dbo.ShFiles_EditLoginProfile";
+
+                var command = new SqlCommand(strProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+
+                command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@newlog", newLogin);
+
+
+                _connection.Open();
+                var result = command.ExecuteNonQuery();
+
+                //return (result > 0);
+            }
+        }
+
+        public void EditPasswordProfileById(int id, string newPass)
+        {
+            using (_connection = new SqlConnection(_connectionString))
+            {
+                var strProc = "dbo.ShFiles_EditPasswordProfile";
+
+                var command = new SqlCommand(strProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+
+                command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@newpass", newPass);
+
+
+                _connection.Open();
+                var result = command.ExecuteNonQuery();
+
+                //return (result > 0);
+            }
+        }
+
+        public void EditDateProfileById(int id, DateTime newDate)
+        {
+            using (_connection = new SqlConnection(_connectionString))
+            {
+                var strProc = "dbo.ShFiles_EditDateProfile";
+
+                var command = new SqlCommand(strProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+
+                command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@newdate", newDate);
+
+
+                _connection.Open();
+                var result = command.ExecuteNonQuery();
+
+                //return (result > 0);
+            }
+        }
+
+
     }
 }

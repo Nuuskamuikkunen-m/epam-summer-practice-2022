@@ -78,5 +78,30 @@ namespace EPAM.FileSharing.DAL.DAL
         {
             throw new NotImplementedException();
         }
+
+        public void EditNameProfileById(int id, string newName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EditEmailProfileById(int id, string newEmail)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EditLoginProfileById(int id, string newLogin)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EditPasswordProfileById(int id, string newPass)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EditDateProfileById(int id, DateTime newDate)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

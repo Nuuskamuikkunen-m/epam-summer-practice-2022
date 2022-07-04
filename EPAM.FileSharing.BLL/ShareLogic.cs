@@ -36,5 +36,15 @@ namespace EPAM.FileSharing.BLL.BLL
         public IEnumerable<object> GetAllUserShFilesById(int id) => _fileDAO.GetAllUserShFilesById(id);
 
         public User GetProfileById(int id) => _fileDAO.GetProfileById(id);
+
+        public void EditNameProfileById(int id, string newName) => _fileDAO.EditNameProfileById(id, newName);
+
+        public void EditEmailProfileById(int id, string newEmail) => _fileDAO.EditEmailProfileById(id, newEmail);
+
+        public void EditLoginProfileById(int id, string newLogin) => _fileDAO.EditLoginProfileById(id, newLogin);
+
+        public void EditPasswordProfileById(int id, string newPass) => _fileDAO.EditPasswordProfileById(id, newPass);
+
+        public void EditDateProfileById(int id, DateTime newDate) => _fileDAO.EditDateProfileById(id, newDate);
     }
 }
