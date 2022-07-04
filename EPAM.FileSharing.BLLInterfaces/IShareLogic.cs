@@ -10,8 +10,8 @@ namespace EPAM.FileSharing.BLLInterfaces
 {
     public interface IShareLogic
     {
-
-        void AddFile(ShFile fileshare);
+        IEnumerable<ShFile> FindFileBySimbols(string str);
+        bool AddFile(ShFile fileshare);
 
         void RemoveFile(int id);
 
@@ -29,6 +29,9 @@ namespace EPAM.FileSharing.BLLInterfaces
         void EditLoginProfileById(int id, string newLogin);
         void EditPasswordProfileById(int id, string newPass);
         void EditDateProfileById(int id, DateTime newDate);
-        
+
+        bool SingIn(string login, string pass);
+
+
     }
 }

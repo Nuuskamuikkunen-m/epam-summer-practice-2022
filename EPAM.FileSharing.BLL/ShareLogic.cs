@@ -46,5 +46,8 @@ namespace EPAM.FileSharing.BLL.BLL
         public void EditPasswordProfileById(int id, string newPass) => _fileDAO.EditPasswordProfileById(id, newPass);
 
         public void EditDateProfileById(int id, DateTime newDate) => _fileDAO.EditDateProfileById(id, newDate);
+        public IEnumerable<ShFile> FindFileBySimbols(string str) => _fileDAO.FindFileBySimbols(str);
+        bool IShareLogic.AddFile(ShFile fileshare) => _fileDAO.AddFile(fileshare);
+        public bool SingIn(string login, string pass) => _fileDAO.SingIn(login, pass);
     }
 }

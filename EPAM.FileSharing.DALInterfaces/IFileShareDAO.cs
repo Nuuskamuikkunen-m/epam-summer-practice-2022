@@ -28,6 +28,8 @@ namespace EPAM.FileSharing.DAL.Interfaces
         void EditPasswordProfileById(int id, string newPass);
 
         void EditDateProfileById(int id, DateTime newDate);
+        IEnumerable<ShFile> FindFileBySimbols(string str);
+        bool SingIn(string login, string pass);
 
 
     }

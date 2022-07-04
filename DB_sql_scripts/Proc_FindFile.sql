@@ -1,0 +1,22 @@
+use ShFiles
+go
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO 
+
+CREATE PROCEDURE dbo.ShFiles_FindFile
+	@str varchar(255)
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT *
+	FROM ShFile
+	WHERE Name LIKE @str+'%' 
+
+END
+go
+
+

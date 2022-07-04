@@ -19,23 +19,28 @@ namespace EPAM.FileSharing.PL.ConsolePL
             while (true)
             {
                 Console.Write("\n" + @"Выберите действие:
-                    0. Войти ?
-                    1. Вывести информацию о профиле по id. +
+                    0. Войти 
+                    1. Вывести информацию о профиле по id. 
 
                     //////
                     
-                    2. Удалить файл по id. (+)
-                    3. Добавить файл.  (+)
-                    4.. Изменить имя файла по id. (+)
-                    5. Вывод всех файлов, название которых начинается с заданного набора символов. ?
+                    2. Удалить файл по id. 
+                    3. Добавить файл. 
+                    4. Изменить имя файла по id.
+                    5. Вывод всех файлов, название которых начинается с заданного набора символов. 
                     6. Реактировать профиль +
-                    7. Выйти ??? " + "\n"
+                    7. Выйти  " + "\n"
                 ) ;
 
                 int action = int.Parse(Console.ReadLine());
 
                 switch (action)
                 {
+                    case 0:
+                        //vhod
+                        SingIn();
+                        break;
+
                     case 1:
 
                         ShowInfoById();
@@ -55,10 +60,15 @@ namespace EPAM.FileSharing.PL.ConsolePL
                         EditNameFile();
                         break;
 
+                    case 5:
+                        FindFileBySimbols();
+                        break;
+
                     case 6:
-                        //edit profile
                         EditProfile();
                         break;
+                    case 7:
+                        return;
 
                     default:
                         Console.WriteLine("\nВыберите нужное действие");
@@ -67,6 +77,42 @@ namespace EPAM.FileSharing.PL.ConsolePL
 
             }
 
+        }
+
+        public static void SingIn()
+        {
+            Console.WriteLine("Введите логин: ");
+            string log = Console.ReadLine();
+            Console.WriteLine("Введите пароль: ");
+            string pass = Console.ReadLine();
+
+            var bll = DependencyResolver.Instance.ShareLogic;
+
+            if (bll.SingIn(log, pass))
+            {
+                //тут жесткий функционал для пользователя и проверка на роль
+
+                Console.WriteLine("Вход выполнен");
+            }
+            else
+                Console.WriteLine("Неправильный логин или пароль");
+            //throw new NotImplementedException();
+        }
+
+        private static void FindFileBySimbols()
+        {
+            Console.WriteLine("Введите начало названия файла");
+
+            string str = Console.ReadLine();
+
+            var bll = DependencyResolver.Instance.ShareLogic;
+
+            foreach (var item in bll.FindFileBySimbols(str))
+            {
+                Console.WriteLine(item);
+            }
+
+            //throw new NotImplementedException();
         }
 
         public static void EditProfile()
@@ -175,7 +221,10 @@ namespace EPAM.FileSharing.PL.ConsolePL
 
 
             var bll = DependencyResolver.Instance.ShareLogic;
-            bll.AddFile(shfile);
+            if (bll.AddFile(shfile))
+                Console.WriteLine("Файл добавлен");
+            else
+                Console.WriteLine("Что-то опшло не по плану") ;
 
             //throw new NotImplementedException();
         }

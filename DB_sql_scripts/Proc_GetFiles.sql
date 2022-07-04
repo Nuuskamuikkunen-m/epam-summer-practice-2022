@@ -1,0 +1,20 @@
+use ShFiles
+go
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO 
+
+CREATE PROCEDURE dbo.ShFiles_GetShFiles
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT ID, Name, Extension, CreationDate FROM ShFile
+	ORDER BY ID
+
+END
+go
+
+

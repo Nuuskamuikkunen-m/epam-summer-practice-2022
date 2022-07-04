@@ -19,12 +19,34 @@ namespace EPAM.FileSharing.DAL.SQLDAL
 
         private static SqlConnection _connection = new SqlConnection(_connectionString);
 
-       
 
+        public bool SingIn(string login, string pass)
+        {
+            using (_connection = new SqlConnection(_connectionString))
+            {
+                var stProc = "dbo.ShFiles_CheckLog";
+
+                var command = new SqlCommand(stProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+                command.Parameters.AddWithValue("@Pass", pass);
+                command.Parameters.AddWithValue("@Login", login);
+                
+
+                _connection.Open();
+
+                var result = command.ExecuteNonQuery();
+
+                Console.WriteLine(result);
+                return result>0;
+            }
+
+        }
 
         public bool AddFile(ShFile fileshare)
         {
-            using (_connection)
+            using (_connection = new SqlConnection(_connectionString))
             {
                 //var query = "INSERT INTO dbo.ShFile(Name, CreationDate) " +
                 //  "VALUES(@Name, @CreationDate)";
@@ -47,9 +69,9 @@ namespace EPAM.FileSharing.DAL.SQLDAL
             }
         }
 
-      
 
-        
+
+
 
         public ShFile CreateNewFilewithScopeID(string name, DateTime creationDate)
         {
@@ -78,7 +100,7 @@ namespace EPAM.FileSharing.DAL.SQLDAL
 
         public ShFile GetShFile(int id)
         {
-            using (_connection)
+            using (_connection = new SqlConnection(_connectionString))
             {
                 var stProc = "ShFiles_GetById";
 
@@ -109,7 +131,7 @@ namespace EPAM.FileSharing.DAL.SQLDAL
 
         public IEnumerable<ShFile> GetShFiles(bool orderedById = true)
         {
-            using (_connection)
+            using (_connection = new SqlConnection(_connectionString))
             {
                 // var query = "SELECT ID, Name, Extension, CreationDate FROM ShFile"
                 //   + (orderedById ? " ORDER BY ID" : "");
@@ -137,7 +159,7 @@ namespace EPAM.FileSharing.DAL.SQLDAL
         }
         public IEnumerable<ShFile> GetAllUserShFilesById(int ID_User) //все файлы профиля с данным ацди +
         {
-            using (_connection)
+            using (_connection = new SqlConnection(_connectionString))
             {
                 var stProc = "ShFiles_GetInfoById";
 
@@ -166,7 +188,7 @@ namespace EPAM.FileSharing.DAL.SQLDAL
 
         public User GetProfileById(int id) //инфа о профиле  +
         {
-            using (_connection)
+            using (_connection = new SqlConnection(_connectionString))
             {
                 var stProc = "ShFiles_GetProfileById";
 
@@ -351,6 +373,38 @@ namespace EPAM.FileSharing.DAL.SQLDAL
                 //return (result > 0);
             }
         }
+
+
+
+        public IEnumerable<ShFile> FindFileBySimbols(string str)
+        {
+            using (_connection = new SqlConnection(_connectionString))
+            {
+                var stProc = "dbo.ShFiles_FindFile";
+
+                var command = new SqlCommand(stProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+
+                command.Parameters.AddWithValue("@str", str);
+
+                _connection.Open();
+
+                var reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    yield return new ShFile(
+                        id: (int)reader["ID"],
+                        name: reader["Name"] as string,
+                        ext: reader["Extension"] as string, //!!!!
+                        date: (DateTime)reader["CreationDate"]);
+                }
+                //throw new InvalidOperationException("error ");
+            }
+        }
+
 
 
     }

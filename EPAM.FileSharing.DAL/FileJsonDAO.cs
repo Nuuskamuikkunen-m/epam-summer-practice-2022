@@ -103,5 +103,15 @@ namespace EPAM.FileSharing.DAL.DAL
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<ShFile> FindFileBySimbols(string str)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SingIn(string login, string pass)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
