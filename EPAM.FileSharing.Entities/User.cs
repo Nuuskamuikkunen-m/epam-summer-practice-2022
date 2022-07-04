@@ -9,13 +9,13 @@ namespace EPAM.FileSharing.Entities
 {
     public class User
     {
-        public User(int id, string name, DateTime regDate, DateTime dateOfBirth, bool admin)
+        public User(int id, string name, DateTime regDate, DateTime dateOfBirth, string email)
         {
             ID = id;
             Name = name;
             RegDate = regDate;
             DateOfBirth = dateOfBirth;
-            Admin = admin;
+            Email = email;
         }
 
         public int ID { get; private set; }
@@ -26,7 +26,7 @@ namespace EPAM.FileSharing.Entities
 
         public DateTime DateOfBirth { get; private set; }
 
-        public bool Admin { get; private set; }
+        public string Email { get; private set; }
 
         public void EditName(string name)
         {

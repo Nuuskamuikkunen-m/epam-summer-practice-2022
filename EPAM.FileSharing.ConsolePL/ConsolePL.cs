@@ -13,10 +13,24 @@ namespace EPAM.FileSharing.PL.ConsolePL
         {
             var bll = DependencyResolver.Instance.ShareLogic;
 
-            foreach(var item in bll.GetShFiles())
-            {
-                Console.WriteLine(item);
-            }
+            //foreach(var item in bll.GetShFiles())
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+
+
+
+            //foreach (var item in bll.GetAllUserShFilesById(1))
+            //{
+            //    Console.WriteLine(item);
+            //}
+
+            //Console.WriteLine(bll.GetProfileById(1));
+
+            Action.MainMenu();
+
         }
     }
+
 }

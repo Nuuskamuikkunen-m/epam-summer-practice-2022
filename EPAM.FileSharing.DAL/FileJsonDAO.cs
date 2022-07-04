@@ -7,6 +7,7 @@ using EPAM.FileSharing.Common.Entities;
 using System.IO;
 using Newtonsoft.Json;
 using EPAM.FileSharing.DAL.Interfaces;
+using EPAM.FileSharing.Entities;
 
 namespace EPAM.FileSharing.DAL.DAL
 {
@@ -62,6 +63,20 @@ namespace EPAM.FileSharing.DAL.DAL
             throw new InvalidOperationException("Cannot find file" );
         }
 
+        IEnumerable<ShFile> GetAllUserShFilesById(int ID_User)
+        {
+            ///
+            throw new InvalidOperationException("Cannot find file");
+        }
 
+        IEnumerable<ShFile> IFileShareDAO.GetAllUserShFilesById(int ID_User)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User GetProfileById(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

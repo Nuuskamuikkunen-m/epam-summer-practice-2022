@@ -5,6 +5,7 @@ using EPAM.FileSharing.DAL.Interfaces;
 using EPAM.FileSharing.DAL.SQLDAL;
 using EPAM.FileSharing.BLLInterfaces;
 using System.Collections.Generic;
+using EPAM.FileSharing.Entities;
 
 namespace EPAM.FileSharing.BLL.BLL
 {
@@ -32,5 +33,8 @@ namespace EPAM.FileSharing.BLL.BLL
 
         public IEnumerable<ShFile> GetShFiles(bool orderedById) => _fileDAO.GetShFiles(orderedById);
 
+        public IEnumerable<object> GetAllUserShFilesById(int id) => _fileDAO.GetAllUserShFilesById(id);
+
+        public User GetProfileById(int id) => _fileDAO.GetProfileById(id);
     }
 }

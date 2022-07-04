@@ -1,4 +1,5 @@
 ﻿using EPAM.FileSharing.Common.Entities;
+using EPAM.FileSharing.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +21,7 @@ namespace EPAM.FileSharing.BLLInterfaces
 
         ShFile GetShFile(int id);
         IEnumerable<ShFile> GetShFiles(bool orderedById = true);
+        IEnumerable<object> GetAllUserShFilesById(int id);
+        User GetProfileById(int v);
     }
 }

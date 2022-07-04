@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using EPAM.FileSharing.Common.Entities;
+using EPAM.FileSharing.Entities;
 
 namespace EPAM.FileSharing.DAL.Interfaces
 {
@@ -15,5 +16,7 @@ namespace EPAM.FileSharing.DAL.Interfaces
         ShFile GetShFile(int id);
         IEnumerable<ShFile> GetShFiles(bool orderedById);
 
+        IEnumerable<ShFile> GetAllUserShFilesById(int ID_User);
+        User GetProfileById(int id);
     }
 }

@@ -9,6 +9,14 @@ namespace EPAM.FileSharing.Common.Entities
 {
     public class ShFile
     {
+        public ShFile()
+        {
+            ID = -1;
+            Name = "";
+            Extension = "";
+            CreationDate = DateTime.Now;
+
+        }
         public ShFile(int id, string name, string ext)
         {
             ID = id;
@@ -34,6 +42,14 @@ namespace EPAM.FileSharing.Common.Entities
             CreationDate = date;
 
         }
+        public ShFile( string name, string ext, DateTime date)
+        {
+            ID = -1;
+            Name = name;
+            Extension = ext;
+            CreationDate = date;
+
+        }
         public ShFile(int id, string name,  DateTime date)
         {
             ID = id;
@@ -48,6 +64,15 @@ namespace EPAM.FileSharing.Common.Entities
             ID = -1;
             Name = name;
             Extension = "";
+            CreationDate = DateTime.Now;
+
+        }
+
+        public ShFile(string name, string ext)
+        {
+            ID = -1;
+            Name = name;
+            Extension = ext;
             CreationDate = DateTime.Now;
 
         }
