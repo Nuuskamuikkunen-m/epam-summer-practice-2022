@@ -26,11 +26,17 @@ namespace EPAM.FileSharing.DAL.SQLDAL
         {
             using (_connection)
             {
-                var query = "INSERT INTO dbo.ShFile(Name, CreationDate) " +
-                    "VALUES(@Name, @CreationDate)";
-                var command = new SqlCommand(query, _connection);
+                //var query = "INSERT INTO dbo.ShFile(Name, CreationDate) " +
+                //  "VALUES(@Name, @CreationDate)";
+                //var command = new SqlCommand(query, _connection);
+                var stProc = "dbo.ShFiles_AddFile";
 
+                var command = new SqlCommand(stProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
                 command.Parameters.AddWithValue("@Name", fileshare.Name);
+                command.Parameters.AddWithValue("@Extension", fileshare.Extension);
                 command.Parameters.AddWithValue("@CreationDate", fileshare.CreationDate);
 
                 _connection.Open();
@@ -105,10 +111,14 @@ namespace EPAM.FileSharing.DAL.SQLDAL
         {
             using (_connection)
             {
-                var query = "SELECT ID, Name, Extension, CreationDate FROM ShFile"
-                    + (orderedById ? " ORDER BY ID" : "");
-
-                var command = new SqlCommand(query, _connection);
+                // var query = "SELECT ID, Name, Extension, CreationDate FROM ShFile"
+                //   + (orderedById ? " ORDER BY ID" : "");
+                var stProc = "dbo.ShFiles_GetShFiles";
+                var command = new SqlCommand(stProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+                //var command = new SqlCommand(query, _connection);
 
                 _connection.Open();
 
@@ -125,7 +135,7 @@ namespace EPAM.FileSharing.DAL.SQLDAL
 
             }
         }
-        public IEnumerable<ShFile> GetAllUserShFilesById(int ID_User)
+        public IEnumerable<ShFile> GetAllUserShFilesById(int ID_User) //все файлы профиля с данным ацди +
         {
             using (_connection)
             {
@@ -154,7 +164,7 @@ namespace EPAM.FileSharing.DAL.SQLDAL
             }
         }
 
-        public User GetProfileById(int id) //инфа о профиле 
+        public User GetProfileById(int id) //инфа о профиле  +
         {
             using (_connection)
             {
@@ -188,12 +198,48 @@ namespace EPAM.FileSharing.DAL.SQLDAL
 
         public void RemoveFile(int id)
         {
-            //!!!!
+            //!!!!ShFiles_RemoveFile
+            using (_connection = new SqlConnection(_connectionString))
+            {
+                var strProc = "ShFiles_RemoveFile";
+
+                var command = new SqlCommand(strProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+
+                command.Parameters.AddWithValue("@Id", id);
+
+                _connection.Open();
+
+                var result = command.ExecuteNonQuery();
+
+                //return result > 0;
+            }
+
         }
 
         public void EditFile(int id, string newName)
         {
             //!!!!
+            using (_connection = new SqlConnection(_connectionString))
+            {
+                var strProc = "ShFiles_EditNameFile";
+
+                var command = new SqlCommand(strProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+
+                command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@NewName", newName);
+
+
+                _connection.Open();
+                var result = command.ExecuteNonQuery();
+
+                //return (result > 0);
+            }
         }
 
         

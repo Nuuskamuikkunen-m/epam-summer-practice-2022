@@ -1,0 +1,22 @@
+use ShFiles
+go
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO 
+
+CREATE PROCEDURE dbo.ShFiles_GetProfileById
+	@id int
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT *
+	FROM dbo.Users
+	WHERE ID_User = @id
+
+END
+go
+
+
