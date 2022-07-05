@@ -24,25 +24,54 @@ namespace EPAM.FileSharing.DAL.SQLDAL
         {
             using (_connection = new SqlConnection(_connectionString))
             {
-                var stProc = "dbo.ShFiles_CheckLog";
+                //var stProc = "dbo.ShFiles_CheckLog"; //hash
+                var stProc = "dbo.ShFiles_CheckLogNONHASH"; //с хешированием почему-то не рабоатет, поэтому я временно сделала без шифрования паролей 
+                //var stProc = "dbo.ShFile_CheckSingIn"; 
 
                 var command = new SqlCommand(stProc, _connection)
                 {
                     CommandType = System.Data.CommandType.StoredProcedure
                 };
-                command.Parameters.AddWithValue("@Pass", pass);
-                command.Parameters.AddWithValue("@Login", login);
-                
+                command.Parameters.AddWithValue("@pas", pass);
+                command.Parameters.AddWithValue("@log", login);
+
+
 
                 _connection.Open();
 
-                var result = command.ExecuteNonQuery();
+                var result = command.ExecuteScalar();
 
                 Console.WriteLine(result);
-                return result>0;
+                return Convert.ToInt32(result)>0;
             }
 
         }
+        //public bool SingInwithRole(string login, string pass)
+        //{
+        //    using (_connection = new SqlConnection(_connectionString))
+        //    {
+        //        //var stProc = "dbo.ShFiles_CheckLog"; //hash
+        //        var stProc = "dbo.ShFiles_CheckLogNONHASHwithROLE"; //с хешированием почему-то не рабоатет, поэтому я временно сделала без шифрования паролей 
+        //        //var stProc = "dbo.ShFile_CheckSingIn"; 
+
+        //        var command = new SqlCommand(stProc, _connection)
+        //        {
+        //            CommandType = System.Data.CommandType.StoredProcedure
+        //        };
+        //        command.Parameters.AddWithValue("@pas", pass);
+        //        command.Parameters.AddWithValue("@log", login);
+        //        command.Parameters.AddWithValue("@role", -2);
+
+
+        //        _connection.Open();
+
+        //        var result = command.ExecuteScalar();
+
+        //        Console.WriteLine(result);
+        //        return Convert.ToInt32(result) > 0;
+        //    }
+
+        //}
 
         public bool AddFile(ShFile fileshare)
         {
@@ -173,16 +202,18 @@ namespace EPAM.FileSharing.DAL.SQLDAL
                 _connection.Open();
 
                 var reader = command.ExecuteReader();
+                if (reader.IsDBNull(0))
+                    while (reader.Read())
+                    {
+                        yield return new ShFile(
+                            //id: (int)reader["ID"],
+                            name: reader["Name"] as string,
+                            ext: reader["Extension"] as string, //!!!!
+                            date: (DateTime)reader["CreationDate"]);
+                    }
+                else Console.WriteLine("у этого пользователя нет файлов ");
 
-                while (reader.Read())
-                {
-                    yield return new ShFile(
-                        //id: (int)reader["ID"],
-                        name: reader["Name"] as string,
-                        ext: reader["Extension"] as string, //!!!!
-                        date: (DateTime)reader["CreationDate"]);
-                }
-                throw new InvalidOperationException("Cannot find user with ID = " + ID_User);
+                //throw new InvalidOperationException("Cannot find user with ID = " + ID_User);
             }
         }
 

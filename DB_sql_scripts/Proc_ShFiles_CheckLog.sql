@@ -19,3 +19,4 @@ END
 go
 
 
+select count(Login) from AccountDetails where Login = 'tihon2022' and Pass = HASHBYTES('SHA2-512', 'ksupass9090')

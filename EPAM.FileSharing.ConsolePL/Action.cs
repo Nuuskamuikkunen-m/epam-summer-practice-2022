@@ -21,14 +21,6 @@ namespace EPAM.FileSharing.PL.ConsolePL
                 Console.Write("\n" + @"Выберите действие:
                     0. Войти 
                     1. Вывести информацию о профиле по id. 
-
-                    //////
-                    
-                    2. Удалить файл по id. 
-                    3. Добавить файл. 
-                    4. Изменить имя файла по id.
-                    5. Вывод всех файлов, название которых начинается с заданного набора символов. 
-                    6. Реактировать профиль +
                     7. Выйти  " + "\n"
                 ) ;
 
@@ -40,6 +32,45 @@ namespace EPAM.FileSharing.PL.ConsolePL
                         //vhod
                         SingIn();
                         break;
+
+                    case 1:
+
+                        ShowInfoById();
+                        break;
+
+                    case 7:
+                        return;
+
+                    default:
+                        Console.WriteLine("\nВыберите нужное действие");
+                        break;
+                }
+
+            }
+
+        }
+
+        public static void MainMenuAdmin()
+        {
+            Action console = new Action();
+
+            while (true)
+            {
+                Console.Write("\n" + @"Выберите действие:
+                    1. Вывести информацию о профиле по id. 
+
+                    2. Удалить файл по id. 
+                    3. Добавить файл. 
+                    4. Изменить имя файла по id.
+                    5. Вывод всех файлов, название которых начинается с заданного набора символов. 
+                    6. Реактировать профиль +
+                    7. Выйти  " + "\n"
+                );
+
+                int action = int.Parse(Console.ReadLine());
+
+                switch (action)
+                {
 
                     case 1:
 
@@ -90,9 +121,10 @@ namespace EPAM.FileSharing.PL.ConsolePL
 
             if (bll.SingIn(log, pass))
             {
-                //тут жесткий функционал для пользователя и проверка на роль
-
-                Console.WriteLine("Вход выполнен");
+                //тут жесткий функционал для пользователя и проверка на роль (должно быть)
+                Console.WriteLine("Вход выполнен" +"\n");
+                MainMenuAdmin();
+                
             }
             else
                 Console.WriteLine("Неправильный логин или пароль");
