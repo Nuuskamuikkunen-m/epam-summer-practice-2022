@@ -49,5 +49,9 @@ namespace EPAM.FileSharing.BLL.BLL
         public IEnumerable<ShFile> FindFileBySimbols(string str) => _fileDAO.FindFileBySimbols(str);
         bool IShareLogic.AddFile(ShFile fileshare) => _fileDAO.AddFile(fileshare);
         public bool SingIn(string login, string pass) => _fileDAO.SingIn(login, pass);
+        public int SingInwithRole(string login, string pass) => _fileDAO.SingInwithRole(login, pass);
+        public int GetIdByLogPass(string log, string pass) => _fileDAO.GetIdByLogPass(log, pass);
+        public bool AddFileInUserProfile(int id) => _fileDAO.AddFileInUserProfile(id);
+        public bool AddFileInUserProfile(ShFile fileshare, int id) => _fileDAO.AddFileInUserProfile(fileshare, id);
     }
 }

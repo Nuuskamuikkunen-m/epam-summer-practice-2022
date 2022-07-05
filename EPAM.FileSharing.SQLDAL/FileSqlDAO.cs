@@ -15,8 +15,6 @@ namespace EPAM.FileSharing.DAL.SQLDAL
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings["default"].ConnectionString;
 
-        //private static string _connectionString = @"Data Source=DESKTOP-TAPD89E;Initial Catalog=ShFiles;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
         private static SqlConnection _connection = new SqlConnection(_connectionString);
 
 
@@ -41,45 +39,64 @@ namespace EPAM.FileSharing.DAL.SQLDAL
 
                 var result = command.ExecuteScalar();
 
-                Console.WriteLine(result);
+
                 return Convert.ToInt32(result)>0;
             }
 
         }
-        //public bool SingInwithRole(string login, string pass)
-        //{
-        //    using (_connection = new SqlConnection(_connectionString))
-        //    {
-        //        //var stProc = "dbo.ShFiles_CheckLog"; //hash
-        //        var stProc = "dbo.ShFiles_CheckLogNONHASHwithROLE"; //с хешированием почему-то не рабоатет, поэтому я временно сделала без шифрования паролей 
-        //        //var stProc = "dbo.ShFile_CheckSingIn"; 
+        public int SingInwithRole(string login, string pass)
+        {
+            using (_connection = new SqlConnection(_connectionString))
+            {
+                var stProc = "dbo.ShFiles_CheckLogNONHASHwithROLE"; //без хеша, с ролями
+                
 
-        //        var command = new SqlCommand(stProc, _connection)
-        //        {
-        //            CommandType = System.Data.CommandType.StoredProcedure
-        //        };
-        //        command.Parameters.AddWithValue("@pas", pass);
-        //        command.Parameters.AddWithValue("@log", login);
-        //        command.Parameters.AddWithValue("@role", -2);
+                var command = new SqlCommand(stProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+                command.Parameters.AddWithValue("@pas", pass);
+                command.Parameters.AddWithValue("@log", login);
+                command.Parameters.AddWithValue("@role", -2);
 
 
-        //        _connection.Open();
+                _connection.Open();
 
-        //        var result = command.ExecuteScalar();
+                var result = command.ExecuteScalar();
 
-        //        Console.WriteLine(result);
-        //        return Convert.ToInt32(result) > 0;
-        //    }
+ 
 
-        //}
+                return Convert.ToInt32(result);
+            }
+
+        }
+
+        public int GetIdByLogPass(string log, string pass)
+        {
+            using (_connection = new SqlConnection(_connectionString))
+            { //dbo.ShFiles_GetIDByLogPass
+                var stProc = "dbo.ShFiles_GetIDByLogPass";
+                var command = new SqlCommand(stProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+                command.Parameters.AddWithValue("@pas", pass);
+                command.Parameters.AddWithValue("@log", log);
+                _connection.Open();
+
+                var result = command.ExecuteScalar();
+
+
+
+                return Convert.ToInt32(result);
+            }
+        }
 
         public bool AddFile(ShFile fileshare)
         {
             using (_connection = new SqlConnection(_connectionString))
             {
-                //var query = "INSERT INTO dbo.ShFile(Name, CreationDate) " +
-                //  "VALUES(@Name, @CreationDate)";
-                //var command = new SqlCommand(query, _connection);
+
                 var stProc = "dbo.ShFiles_AddFile";
 
                 var command = new SqlCommand(stProc, _connection)
@@ -99,7 +116,51 @@ namespace EPAM.FileSharing.DAL.SQLDAL
         }
 
 
+        //dbo.ShFiles_AddFileInUserProfile
+        public bool AddFileInUserProfile(int id) 
+        {
+            using (_connection = new SqlConnection(_connectionString))
+            {
 
+                var stProc = "dbo.ShFiles_AddFileInUserProfile";
+
+                var command = new SqlCommand(stProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+                command.Parameters.AddWithValue("@iduser", id);
+                
+
+                _connection.Open();
+
+                var result = command.ExecuteNonQuery();
+
+                return result > 0;
+            }
+        }
+
+        public bool AddFileInUserProfile(ShFile fileshare, int id)
+        {
+            using (_connection = new SqlConnection(_connectionString))
+            {
+                var stProc = "dbo.ShFiles_AddFileUSERPROFILE_2_0";
+
+                var command = new SqlCommand(stProc, _connection)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
+                command.Parameters.AddWithValue("@Name", fileshare.Name);
+                command.Parameters.AddWithValue("@Extension", fileshare.Extension);
+                command.Parameters.AddWithValue("@CreationDate", fileshare.CreationDate);
+                command.Parameters.AddWithValue("@iduser", id);
+
+                _connection.Open();
+
+                var result = command.ExecuteNonQuery();
+
+                return result > 0;
+            }
+        }
 
 
         public ShFile CreateNewFilewithScopeID(string name, DateTime creationDate)
@@ -202,7 +263,8 @@ namespace EPAM.FileSharing.DAL.SQLDAL
                 _connection.Open();
 
                 var reader = command.ExecuteReader();
-                if (reader.IsDBNull(0))
+               // if (reader.Read()) { 
+                   // reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         yield return new ShFile(
@@ -211,11 +273,14 @@ namespace EPAM.FileSharing.DAL.SQLDAL
                             ext: reader["Extension"] as string, //!!!!
                             date: (DateTime)reader["CreationDate"]);
                     }
-                else Console.WriteLine("у этого пользователя нет файлов ");
+                //}
+                //else Console.WriteLine("у этого пользователя нет файлов ");
 
-                //throw new InvalidOperationException("Cannot find user with ID = " + ID_User);
+                //throw new InvalidOperationException("у этого пользователя нет файлов " + ID_User);
             }
         }
+
+
 
         public User GetProfileById(int id) //инфа о профиле  +
         {

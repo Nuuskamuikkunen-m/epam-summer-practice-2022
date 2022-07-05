@@ -113,5 +113,26 @@ namespace EPAM.FileSharing.DAL.DAL
         {
             throw new NotImplementedException();
         }
+
+        public int SingInwithRole(string login, string pass)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetIdByLogPass(string log, string pass)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddFileInUserProfile(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddFileInUserProfile(ShFile fileshare, int id)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

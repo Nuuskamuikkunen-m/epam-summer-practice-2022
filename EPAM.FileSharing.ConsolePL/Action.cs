@@ -29,8 +29,9 @@ namespace EPAM.FileSharing.PL.ConsolePL
                 switch (action)
                 {
                     case 0:
-                        //vhod
-                        SingIn();
+
+                        //SingIn();
+                        SingInWithRole();
                         break;
 
                     case 1:
@@ -50,7 +51,7 @@ namespace EPAM.FileSharing.PL.ConsolePL
 
         }
 
-        public static void MainMenuAdmin()
+        public static void MainMenuAdmin() // меню для админа
         {
             Action console = new Action();
 
@@ -110,7 +111,85 @@ namespace EPAM.FileSharing.PL.ConsolePL
 
         }
 
-        public static void SingIn()
+        public static void MainMenuUser(string log, string pass) // меню для простого пользователя
+        {
+
+            //dbo.ShFiles_GetIDByLogPass
+            var bll = DependencyResolver.Instance.ShareLogic;
+            int id = bll.GetIdByLogPass(log, pass);
+
+            while (true)
+            {
+                Console.Write("\n" + @"Выберите действие:
+                    1. Вывести информацию о моем профиле
+                    2. Добавить файл.  
+                    3. Реактировать мой профиль
+                    7. Выйти  " + "\n"
+                );
+
+                int action = int.Parse(Console.ReadLine());
+
+                switch (action)
+                {
+
+                    case 1:
+
+                        ShowInfoById(id);
+                        break;
+
+                    case 2:
+
+                        AddFile(id); 
+                        break;
+
+                    case 3:
+                        EditProfile(id);
+                        break;
+                    case 7:
+                        return;
+
+                    default:
+                        Console.WriteLine("\nВыберите нужное действие");
+                        break;
+                }
+
+            }
+
+
+        }
+
+        public static void SingInWithRole() //вход по ролям
+        {
+            Console.WriteLine("Введите логин: ");
+            string log = Console.ReadLine();
+            Console.WriteLine("Введите пароль: ");
+            string pass = Console.ReadLine();
+
+            var bll = DependencyResolver.Instance.ShareLogic;
+
+            int n = bll.SingInwithRole(log, pass);
+
+            if (n > 0)
+            {
+                //тут жесткий функционал для пользователя и проверка на роль (должно быть)
+                Console.WriteLine("Вход выполнен" + "\n");
+                MainMenuAdmin();
+
+            }
+            else
+            {
+                if (n == 0)
+                {
+                    Console.WriteLine("Функционал для простого пользователя");
+                    MainMenuUser(log, pass);
+                }
+                else
+                    Console.WriteLine("Неправильный логин или пароль");
+            }
+            //throw new NotImplementedException();
+        }
+
+        public static void SingIn() //вход без ролей
         {
             Console.WriteLine("Введите логин: ");
             string log = Console.ReadLine();
@@ -147,6 +226,49 @@ namespace EPAM.FileSharing.PL.ConsolePL
             //throw new NotImplementedException();
         }
 
+
+        public static void EditProfile(int id)
+        {
+            
+
+
+            Console.WriteLine(@"Выберите, что нужно отредактировать: 
+                                1. Имя
+                                2. Email
+                                3. Дату рождения
+                                4. Логин
+                                5. Пароль
+                                6. Отмена" + "\n");
+
+            int action = int.Parse(Console.ReadLine());
+
+            switch (action)
+            {
+                case 1:
+                    EditNameProfile(id);
+                    break;
+                case 2:
+                    EditEmailProfile(id);
+                    break;
+                case 3:
+                    EditDateProfile(id);
+                    break;
+                case 4:
+                    EditLoginProfile(id);
+                    break;
+                case 5:
+                    EditPasswordProfile(id);
+                    break;
+                case 6:
+                    break;
+                default:
+                    Console.WriteLine("error");
+                    break;
+            }
+
+
+            //throw new NotImplementedException();
+        }
         public static void EditProfile()
         {
             Console.WriteLine("Введите айди профиля, который нужно отредактировать: ");
@@ -260,6 +382,25 @@ namespace EPAM.FileSharing.PL.ConsolePL
 
             //throw new NotImplementedException();
         }
+        public static void AddFile(int id)
+        {
+
+            Console.WriteLine("Название файла: ");
+            var name = Console.ReadLine();
+            Console.WriteLine("Расширение файла: ");
+            var ext = Console.ReadLine();
+            ShFile shfile = new ShFile(name, ext);
+
+
+            var bll = DependencyResolver.Instance.ShareLogic;
+            if (bll.AddFile(shfile) && bll.AddFileInUserProfile(id))
+            //if(bll.AddFileInUserProfile(shfile, id))
+                Console.WriteLine("Файл добавлен");
+            else
+                Console.WriteLine("Что-то опшло не по плану");
+
+            //throw new NotImplementedException();
+        }
 
         private static void EditNameFile()
         {
@@ -299,6 +440,23 @@ namespace EPAM.FileSharing.PL.ConsolePL
 
 
             //throw new NotImplementedException();
+        }
+        public static void ShowInfoById(int id)
+        {
+
+            var bll = DependencyResolver.Instance.ShareLogic;
+
+
+            Console.WriteLine("информация профиля: ");
+            Console.WriteLine(bll.GetProfileById(id));
+            Console.WriteLine();
+
+            Console.WriteLine("Все файлы моего профиля: ");
+
+            foreach (var item in bll.GetAllUserShFilesById(id))
+            {
+                Console.WriteLine(item);
+            }
         }
 
         public static void ShowInfoById()
