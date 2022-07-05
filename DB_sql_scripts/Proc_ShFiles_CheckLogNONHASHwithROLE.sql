@@ -16,10 +16,12 @@ CREATE PROCEDURE dbo.ShFiles_CheckLogNONHASHwithROLE
 AS
 BEGIN
 	SET NOCOUNT ON;
-	 declare @n nvarchar(20)
+	 declare @n int
 	 set @n = (select count(Login) from AccountDetails where Login = @log and Pass =  @pas)
-	 if (@n = '1')
+	 if (@n = 1)
 		set @role= (select AdminRole from AccountDetails where Pass = @pas)
 	 select @role
 END
 go
+
+drop PROCEDURE ShFiles_CheckLogNONHASHwithROLE

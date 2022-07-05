@@ -35,7 +35,6 @@
 
 
 
-select * from AccountDetails
 
 insert ShFile
 values
@@ -57,7 +56,34 @@ values
 
 insert AccountDetails
 values
-('myhardlogin', HASHBYTES('SHA2_512', 'lerasuper9000'), 1, 1),
-('tihon2022', HASHBYTES('SHA2_512','ksupass9090'), 0, 2)
+('myhardlogin', HASHBYTES('SHA2_256', 'lerasuper9000'), 1, 1),
+('tihon2022', HASHBYTES('SHA2_256','ksupass9090'), 0, 2)
 
 
+insert Users
+values
+('UserPuser', '2022-10-04', GETDATE(), 'email@gmail.com')
+
+
+insert AccountDetails
+values
+('log', HASHBYTES('SHA2_256', 'pass'), 0, 3)
+
+select count(Login) from AccountDetails where Login = 'log' and Pass = HASHBYTES('SHA2-256', 'pass')
+
+insert AccountDetails
+values
+('loglog', 'passpass', 0, 3)
+
+select count(Login) from AccountDetails where Login = '123' and Pass = '123'
+
+insert AccountDetails
+values
+('блин', 'давайуже', 0, 3)
+
+EXEC dbo.ShFiles_CheckLogNONHASH '123', '123';  
+GO  
+
+insert AccountDetails
+values
+('admin', 'admin', 1, 1)

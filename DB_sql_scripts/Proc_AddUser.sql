@@ -22,9 +22,10 @@ BEGIN
 	insert into Users values 
 	(@Name, @DateB, @regdate, @email)
 	insert into AccountDetails values
-	(@Login, HASHBYTES('SHA2_512', @Pass), 0, @usid)
+	(@Login, HASHBYTES('SHA2_256', @Pass), 0, @usid)
 
 END
 go
 
 
+drop PROCEDURE dbo.ShFiles_AddUser

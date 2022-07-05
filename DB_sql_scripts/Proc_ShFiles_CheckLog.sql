@@ -7,16 +7,16 @@ SET QUOTED_IDENTIFIER ON
 GO 
 
 CREATE PROCEDURE dbo.ShFiles_CheckLog
-	@Pass nvarchar(255),
-	@Login nvarchar(255)
+	@pas nvarchar(255),
+	@log nvarchar(255)
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-	select count(Login) from AccountDetails where Login = @Login and Pass = HASHBYTES('SHA2-512', @Pass)
+	select count(Login) from AccountDetails where Login = @log and Pass = HASHBYTES('SHA2-256', @pas)
 
 END
 go
 
 
-select count(Login) from AccountDetails where Login = 'tihon2022' and Pass = HASHBYTES('SHA2-512', 'ksupass9090')
+drop PROCEDURE dbo.ShFiles_CheckLog
